@@ -11,18 +11,18 @@
     (UAVs). Improving their ability to adjust to changes in wind conditions
     is a topic of much research \cite{1} especially as work continues to
     allow UAVs to carry out increasingly complicated tasks autonomously
-    like CSIRO’s Hovermap an arial 3D mapping platform \cite{2}.
     \vspace{\baselineskip}
+    like CSIRO’s Hovermap an arial 3D mapping platform \cite{2}.
     In Australia the height limit to operate a UAV is 120m above ground
     level \cite{3}. At these heights wind turbulence and gust conditions greatly
     impact the performance of UAVs, by changing its trajectory and expected
-    current state potentially leading to drone damage. As a response to
+    current state can potentially leading to drone damage. As a response to
     this, researchers have turned to nature as inspiration. Basing UAV
     design on birds has advantages over classical UAV designs (like
     multi-rotor or fixed wing drones) including increased aerodynamic
     efficiency, high manoeuvrability and stability in high-gust conditions
-    \cite{4}.
     \vspace{\baselineskip}
+    \cite{4}.
     In this project we build on existing work to develop stable flight
     controllers for a novel platform the Kestrel robotic replica half-wing
     based on the Nankeen Kestrel with three degrees of freedom (wing
@@ -34,8 +34,8 @@
     (DRL) to develop a flight stability controller. DRL has been shown
     to have superior response time, reduced error and ability to reject
     external disturbances. Additionally, development of a DRL controller
-    does not require domain specific knowledge in controller tuning \cite{6}.
     \vspace{\baselineskip}
+    does not require domain specific knowledge in controller tuning \cite{6}.
     We will investigate the use of a classical controllers on the novel
     Kestrel platform to directly compare it to the DRL controller.
     We aim develop a Proportional Integral Derivative (PID) controller
@@ -53,26 +53,26 @@
     changes the gains of the controller during flight based on performance
     evaluation loop built into the controller. As all our testing will be
     conducted in laminar flow, an adaptive PID will not be implemented and a
-    classical PID will be developed to reduce complexity of implementation.
     \vspace{\baselineskip}
+    classical PID will be developed to reduce complexity of implementation.
     Tuning a PID using trial-and-error is a manual, tedious process often
     requiring expert domain knowledge \cite{6}. To address this, researchers are
     applying machine learning to the problem of finding high-performing gains
     for PID controllers. Support Vector Regression (SVR) is increasingly being
     used for PID controllers to facilitate the tuning process. Studies have
     shown that SVR-based controllers display enhanced stability and accuracy
-    in variety of applications \cite{8}.
     \vspace{\baselineskip}
+    in variety of applications \cite{8}.
     In terms of applications in bio-inspired wings, Wenfu et al.\cite{9} in a 2021
     experiment showed the effectiveness of implementing a PID in a robotic
     bird. They describe that as their bird gets more complex, increasingly
-    complex methods of control will be required. 
     \vspace{\baselineskip}
+    complex methods of control will be required. 
     As Okasha et al. discussed in their 2022 paper. Model Predictive Control
     (MPC) is a powerful controller that is more robust and stable compared
     to PID, though it is computationally expensive \cite{10}. Another advantage
-    over PID is that it bypasses the tuning phase.
     \vspace{\baselineskip}
+    over PID is that it bypasses the tuning phase.
     The existing literature on PID, SVR tuning and MPC in the UAV space
     provided valuable insights for our project. By learning from these
     approaches, we can utilise a variety of control methods in a novel
@@ -96,8 +96,8 @@
     the first floor sent to the second floor where the testing area is.
     This design ensures steady delivery of laminar flow, wind flow without
     disturbances. Figure 2 from displays this generic design. The vanes on
-    each corner of the tunnel ensure that the flow is laminar. 
     \vspace{\baselineskip}
+    each corner of the tunnel ensure that the flow is laminar. 
     A pressure probe embedded in the test area allows us to assess the
     pressure in the wind tunnel. Knowing the target speed and the ambient
     temperature and air pressure of the wind tunnel allows us to calculate
@@ -105,8 +105,8 @@
     occurred at approximately 0.0155 kPa or 5 m/s, the target pressure would
     fluctuate throughout the day as ambient temperature and pressures
     changed. As such we regularly calculated the target pressure to ensure
-    consistent speeds.
     \vspace{\baselineskip}
+    consistent speeds.
 
     \setlength{\intextsep}{0pt}
     \begin{wrapfigure}{r}{\textwidth/2}
@@ -119,27 +119,30 @@
     Kestrel. After processing through the data acquisition box, we are given
     a list of 6 values: the force in N at X, Y and Z. We are also given
     moments in X, Y and Z, which is expressed in Nm. The primary force used
-    in training and testing was the force at Y or the lift.
     \vspace{\baselineskip}
+    in training and testing was the force at Y or the lift.
     Before each test the load cell must be calibrated to ensure we return
     accurate results. In our design we take 1000 results from the load cell
     and store the average for each measure in a file. This average is then
     subtracted from each test measurement to zero the load cell. We recognised
-    some drift in the load cell and therefor we calibrated the load cell regularly.
     \vspace{\baselineskip}
+    some drift in the load cell and therefor we calibrated the load cell regularly.
+
 
     \quad\textbf{Data output}\\
     After a test everything that happens at each timestep this includes all the
     forces in N and moments in Nm, the new set position of each servo as decided by
     the controller and the error lift. For all tests the lift of the bird was
-    targeted to be 0.42 N.
+    targeted to be 0.42 N. \vspace{\baselineskip}
     This data will be sufficient to capture our primary outcomes:
 
         • Time taken to stabilise the bird
 
         • Quality of transition to stability
 
-        • Quality of stability (error is as close to zero as possible throughout flight)\\
+        • Quality of stability (error is as close to zero as possible throughout flight)\\    
+        \vspace{\baselineskip}
+
     In addition to assessing the robustness of our controllers the output will
     allow us to compare to the pre-trained DRL model.
     The following is the experimental workflow that was carried out to conduct each major test.
