@@ -210,6 +210,65 @@
     \end{enumerate}
 
 \section{Results}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Resources/mpc_error_mse.png}
+        \caption{MPC error (-5\textdegree{})}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Resources/pid_run_at_-5_birdpitch.png}
+    \caption{PID error at -5\textdegree{} pitch}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Resources/pid_run_at_0_birdpitch.png}
+        \caption{PID error at 0\textdegree{} pitch}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Resources/pid_run_at_5_birdpitch.png}
+        \caption{PID error at 5\textdegree{} pitch}
+    \end{subfigure}
+    \caption{Evaluation runs of the 2 controllers}
+    \label{fig:four_images}
+\end{figure}
+
+
+    Here we have the final runs of our controllers firstly to the top right
+    we have the MPC run, due to time constraints we were only able to get a
+    full test of the MPC controller running at -5\textdegree{} but from the
+    graph we can see that the controller was able to begin stabilizing at
+    approx 500 timesteps and by 1000 timesteps the controller has fully
+    stabilized this is significant due to the controller not requiring a
+    dedicated training phase.
+
+
+    now we have the PID controller, the controller with the optimal
+    settings managed to stabilize very quickly at both 0\textdegree{}
+    and 5\textdegree{} pitches but seemed to not move very much at the
+    -5\textdegree{} pitch.
+
+
+    we can also take a look at the final positions of the bird at the
+    end of each run. The MPC controller had the Wing spread and the Tail
+    spread at very similar levels ranging from about -9.3 to -9.7 and having
+    the Tail pitch at about 0.57
+
+    the pid runs are quite different from this, for -5\textdegree{} has all the
+    positions negative with both of the tail positions at -1 and the wing spread
+    at -0.2 but then if we move on to 0\textdegree{} we have all of the servo
+    positions at 1 and at 5\textdegree{} all of the servo positions at -1 this
+    could suggest many things such as the bird not physically being able to get
+    to the target load at some of the sharper pitches.
+    We're able to see this in the videos we recorded of the PID runs here:
+    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{0\textdegree{} run,}
+    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_neg5.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=log0nht8&dl=0}{-5\textdegree{} run,}
+    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{5\textdegree{} run.}
+
 \section{Evaluation}
 \section{Discussion}
 \section{Conclusion}
