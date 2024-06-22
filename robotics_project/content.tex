@@ -78,7 +78,69 @@
 \section{Methodology}
     \subsection{System architecture}
 
+    text
+
     \subsection{Software architecture}
+	\begin{wrapfigure}{r}{\textwidth/3}
+    	\begin{tikzpicture}[scale=1]
+
+        	\tikzstyle{box} = [draw, rounded corners, minimum width=1cm, minimum height=1cm, align=center];
+
+        	\node[box] (tier3) {Observe};
+        	\node[box, below of=tier3, node distance=2cm] (tier2) {Control};
+        	\node[box, below of=tier2, node distance=2cm] (tier1) {Communicate};
+
+        	\draw[->] (tier3) -- (tier2);
+        	\draw[->] (tier2) -- (tier1);
+        	\draw[->] (tier1.east) -- ++(1cm,0) arc (0:0:2cm) |- (tier3.east);
+
+    	\end{tikzpicture}
+	\end{wrapfigure}
+
+    For our software system, we developed an N-tier software architecture.
+    Our architecture contains 3 main tiers.
+
+    Firstly we have the observation
+    tier, which links into the Kestrel’s observation space, this includes
+    the Kestrel’s motor positions and collects data from the load cell that
+    the bird is plugged into.
+
+    Secondly is the controller layer, being a
+    component layer that allows us to plug in any of our developed controllers
+    either the PID or the MPC controller this layer also includes the training
+    of these controllers for example with the PID controller the SVR Tuner we
+    have developed also runs with the data collected from the observation tier.
+    
+    Finally, we have the Communication tier, which takes the place of the
+    presentation layer. This takes everything that the previous tiers have done
+    and sends the data to the Kestrel’s action space, this then finally loops
+    back to the observation tier to do it all again.
+
+    \subsection{Developed Software}
+
+    \paragraph{PID controller} Firstly we developed a generic PID
+    controller as a method of controlling the Kestrel bird. The PID
+    controller takes in an initial P, I, and D value to dictate the
+    controller's response, as well as a setpoint which is a targeted
+    system value. For the PID controller to operate effectively the
+    P, I and D values need to be optimally selected and for this, we
+    move on to the next piece of software.
+    
+    \paragraph{SVR Tuner} We developed the SVR Tuner as a modern method
+    of selecting the most optimal P, I, and D values for the PID controller,
+    we chose this regressional method based on the identifiable success that
+    others have had in similar applications \cite{12}. Our tuning is split into
+    several episodes. For each episode, the tuner goes through an exploration
+    phase to build up the data for the tuner to work with and all this data
+    is then collected and processed to find the best PID values for our controller.
+
+    \paragraph{MPC} We have also implemented a Model Predictive Controller, though
+    due to the relative complexity of the algorithm, we have opted to implement a
+    pre-existing library \href{https://github.com/forgi86/pyMPC}{pyMPC} which was selected due to its simplicity and the 
+    overall control we have over the setup. We chose this to compare directly
+    against the PID controller, MPC by design is a predictive controller
+    whereas PID is reactive, which gives us a good benchmark for the control
+    system of the bird.
 
     \subsection{Experiment details}
     \setlength{\intextsep}{0pt}
@@ -104,10 +166,10 @@
     changed. As such we regularly calculated the target pressure to ensure
     consistent speeds.
 
-   \begin{wrapfigure}{r}{\textwidth/2}
+    \begin{wrapfigure}{r}{\textwidth/2}
         \includegraphics[width=\textwidth/2]{./Resources/Fig3_load_cell.jpg}
         \caption{\label{fig:figure 3} 30N Load Cell}
-   \end{wrapfigure}
+    \end{wrapfigure}
 
    \paragraph{Load cell} The Kestrel is mounted directly onto a 30 N load cell (Figure 3). The
    output from the load cell describes the major forces occurring on the
