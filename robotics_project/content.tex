@@ -247,27 +247,27 @@
     dedicated training phase.
 
 
-    now we have the PID controller, the controller with the optimal
+    Now we have the PID controller, the controller with the optimal
     settings managed to stabilize very quickly at both 0\textdegree{}
     and 5\textdegree{} pitches but seemed to not move very much at the
     -5\textdegree{} pitch.
 
 
-    we can also take a look at the final positions of the bird at the
+    We can also take a look at the final positions of the bird at the
     end of each run. The MPC controller had the Wing spread and the Tail
     spread at very similar levels ranging from about -9.3 to -9.7 and having
     the Tail pitch at about 0.57
 
-    the pid runs are quite different from this, for -5\textdegree{} has all the
+    The pid runs are quite different from this, for -5\textdegree{} has all the
     positions negative with both of the tail positions at -1 and the wing spread
     at -0.2 but then if we move on to 0\textdegree{} we have all of the servo
     positions at 1 and at 5\textdegree{} all of the servo positions at -1 this
     could suggest many things such as the bird not physically being able to get
     to the target load at some of the sharper pitches.
     We're able to see this in the videos we recorded of the PID runs here:
-    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{0\textdegree{} run,}
-    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_neg5.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=log0nht8&dl=0}{-5\textdegree{} run,}
-    \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{5\textdegree{} run.}
+    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5F0%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ef3885318%2D9f91%2D46c8%2Da3eb%2Dd8f4c9c4119c}{0\textdegree{} run,}
+    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5Fneg5%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ebc526bc6%2Dddeb%2D4541%2D8a43%2Dfa71c96490f9}{-5\textdegree{} run,}
+    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5Fpos5%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Eb6048472%2D1336%2D4fed%2Da601%2Da2fd975ce156}{5\textdegree{} run.}
 
 \section{Evaluation}
 \section{Discussion}
