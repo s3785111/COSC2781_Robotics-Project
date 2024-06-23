@@ -5,12 +5,24 @@
 
 \clearpage
 \chapter{}\label{apdx:A}
-\setlrmarginsandblock{0.5cm}{0.5cm}{*}
 \checkandfixthelayout
 \vfill{}
 \begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=\textwidth]{./img/}
-  \end{center}
+    \centering
+    \begin{subfigure}[b]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/ActuatorMPC.png}
+        \caption{Actuator position for MPC}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/ActuatorPID-5.png}
+        \caption{Actuator position for PID at $\SI{-5}{\degree}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/ActuatorPID5.png}
+        \caption{Actuator position for PID at $\SI{5}{\degree}$}
+    \end{subfigure}
 \end{figure}
 \vfill{}

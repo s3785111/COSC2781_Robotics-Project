@@ -1,7 +1,7 @@
 \section{Introduction}
 
     \begin{wrapfigure}{r}{\textwidth/2}
-        \includegraphics[width=\textwidth/2]{./Resources/Kestrel.jpg}
+        \includegraphics[width=\textwidth/2]{./img/Kestrel.jpg}
         \caption{\label{fig:figure 1} Kestrel Bird System}
     \end{wrapfigure}
 
@@ -78,7 +78,40 @@
 \section{Methodology}
     \subsection{System architecture}
 
-    text
+	\begin{figure}[h]
+	    \centering
+    	\begin{tikzpicture}
+        	\tikzstyle{box} = [draw, rounded corners, minimum width=1.75cm, minimum height=1cm, align=center];
+        	\node[box] (PC) {PC};
+            \node[box, below of=PC, yshift=-1cm] (MCU) {Teensy 3.6\\\tiny MCU};
+        	\node[box, right of=MCU, xshift=1.5cm] (servo) {Servo Motors};
+        	\node[box, right of=servo, xshift=1.5cm] (wing) {Wing};
+        	\node[box, above of=wing, yshift=1cm] (load) {JR30\\\tiny Load Cell};
+        	\node[box, left of=load, xshift=-1.5cm] (DAQ) {NI USB-6210\\\tiny DAQ};
+
+            \draw[->] (PC) -- (MCU);
+            \draw[->] (MCU) -- (servo);
+            \draw[->] (servo) -- (wing);
+            \draw[->] (wing) -- (load);
+            \draw[->] (DAQ) -- (PC);
+            \draw[->] (load) -- (DAQ);
+    	\end{tikzpicture}
+        \caption{Experimental system architecture}\label{fig:architecture_hardware}
+	\end{figure}
+
+	Figure~\ref{fig:architecture_hardware} outlines the experimental setup from a hardware perspective, where notably a circular feedback system is implemented. The wing connects to a JR30 load cell mounted internal to the wind tunnel. This load cell is connected via DB9 connector to a data acquisition box (DAQ) which in turn wires a USB connection into the computer to interface with the controller software.
+
+	Data is collected from the DAQ through the \verb|NI-DAQmx| driver software. As discussed further in this report, the DAQ \textit{must} be calibrated before use to ensure output measurements are correct and nominal. Once the load feedback from the wing is processed by the controller, outputs are generated for each of the three servos controlling the respective wing extension, tail spread, and tail pitch of the model. These then pass to the \verb|Teensy| microcontroller (MCU) over serial communication via USB. 
+
+    \vspace{-1em}
+    \begin{wrapfigure}{l}{0.5\textwidth}
+        \begin{center}
+            \includegraphics[width=0.45\textwidth]{./img/hardware_breadboard.jpg}
+        \end{center}
+        \caption{Breadboard setup for Teensy microcontroller}\label{fig:hardware_breadboard}
+    \end{wrapfigure}
+
+	Internally, the MCU firmware handles the hardware interfacing with the servos to drive the wing, moving to the pose as determined by the controller. 
 
     \subsection{Software architecture}
 	\begin{wrapfigure}{r}{\textwidth/3}
@@ -95,10 +128,11 @@
         	\draw[->] (tier1.east) -- ++(1cm,0) arc (0:0:2cm) |- (tier3.east);
 
     	\end{tikzpicture}
+        \caption{Software architecture}\label{fig:architecture_software}
 	\end{wrapfigure}
 
     For our software system, we developed an N-tier software architecture.
-    Our architecture contains 3 main tiers.
+    Our architecture contains 3 main tiers, as outlined in Figure~\ref{fig:architecture_software}.
 
     Firstly we have the observation
     tier, which links into the Kestrel’s observation space, this includes
@@ -110,6 +144,14 @@
     either the PID or the MPC controller this layer also includes the training
     of these controllers for example with the PID controller the SVR Tuner we
     have developed also runs with the data collected from the observation tier.
+
+    \begin{figure}[h]
+        \begin{center}
+            \includegraphics[width=0.7\textwidth]{./img/hardware_setup.jpeg}
+        \end{center}
+        \caption{System hardware setup}\label{fig:hardware_setup}
+    \end{figure}
+
     
     Finally, we have the Communication tier, which takes the place of the
     presentation layer. This takes everything that the previous tiers have done
@@ -142,10 +184,11 @@
     whereas PID is reactive, which gives us a good benchmark for the control
     system of the bird.
 
+    \clearpage
     \subsection{Experiment details}
     \setlength{\intextsep}{0pt}
     \begin{wrapfigure}{r}{\textwidth/2}
-        \includegraphics[width=\textwidth/2]{./Resources/Fig2_wind_tunnel_design.jpg}
+        \includegraphics[width=\textwidth/2]{./img/Fig2_wind_tunnel_design.jpg}
         \caption{\label{fig:figure 2} Closed Return Wind Tunnel \cite{10}}
     \end{wrapfigure}
     \paragraph{Wind tunnel}
@@ -167,7 +210,7 @@
     consistent speeds.
 
     \begin{wrapfigure}{r}{\textwidth/2}
-        \includegraphics[width=\textwidth/2]{./Resources/Fig3_load_cell.jpg}
+        \includegraphics[width=\textwidth/2]{./img/Fig3_load_cell.jpg}
         \caption{\label{fig:figure 3} 30N Load Cell}
     \end{wrapfigure}
 
@@ -188,8 +231,7 @@
     After a test everything that happens at each timestep this includes all the
     forces in N and moments in Nm, the new set position of each servo as decided by
     the controller and the error lift. For all tests the lift of the bird was
-    targeted to be 0.42 N. \vspace{\baselineskip}
-    This data will be sufficient to capture our primary outcomes:
+    targeted to be 0.42 N. This data will be sufficient to capture our primary outcomes:
 
     \begin{itemize}
         \item Time taken to stabilise the bird
@@ -215,28 +257,27 @@
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{./Resources/mpc_error_mse.png}
-        \caption{MPC error (-5\textdegree{})}
+        \includegraphics[width=\textwidth]{./img/mpc_error_mse.png}
+        \caption{MPC error at -5\textdegree\ }
     \end{subfigure}
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{./Resources/pid_run_at_-5_birdpitch.png}
-    \caption{PID error at -5\textdegree{} pitch}
+        \includegraphics[width=\textwidth]{./img/pid_run_at_-5_birdpitch.png}
+    \caption{PID error at -5\textdegree\ pitch}
     \end{subfigure}
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{./Resources/pid_run_at_0_birdpitch.png}
-        \caption{PID error at 0\textdegree{} pitch}
+        \includegraphics[width=\textwidth]{./img/pid_run_at_0_birdpitch.png}
+        \caption{PID error at 0\textdegree\ pitch}
     \end{subfigure}
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{./Resources/pid_run_at_5_birdpitch.png}
-        \caption{PID error at 5\textdegree{} pitch}
+        \includegraphics[width=\textwidth]{./img/pid_run_at_5_birdpitch.png}
+        \caption{PID error at 5\textdegree\ pitch}
     \end{subfigure}
     \caption{Evaluation runs of the 2 controllers}
     \label{fig:four_images}
 \end{figure}
-
 
     Here we have the final runs of our controllers firstly to the top right
     we have the MPC run, due to time constraints we were only able to get a
@@ -256,7 +297,7 @@
     We can also take a look at the final positions of the bird at the
     end of each run. The MPC controller had the Wing spread and the Tail
     spread at very similar levels ranging from about -9.3 to -9.7 and having
-    the Tail pitch at about 0.57
+    the Tail pitch at about 0.57.
 
     The pid runs are quite different from this, for -5\textdegree{} has all the
     positions negative with both of the tail positions at -1 and the wing spread
@@ -264,11 +305,78 @@
     positions at 1 and at 5\textdegree{} all of the servo positions at -1 this
     could suggest many things such as the bird not physically being able to get
     to the target load at some of the sharper pitches.
-    We're able to see this in the videos we recorded of the PID runs here:
-    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5F0%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ef3885318%2D9f91%2D46c8%2Da3eb%2Dd8f4c9c4119c}{0\textdegree{} run,}
-    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5Fneg5%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ebc526bc6%2Dddeb%2D4541%2D8a43%2Dfa71c96490f9}{-5\textdegree{} run,}
-    \href{https://rmiteduau.sharepoint.com/sites/Course_cosc2781-9f144ht2HHKtf/_layouts/15/stream.aspx?id=%2Fsites%2FCourse%5Fcosc2781%2D9f144ht2HHKtf%2FShared%20Documents%2F03c%20%2D%20Project%20%20%F0%9F%93%8B%2F02%2Dbioinspired%2Ffinal%5FPID%5Fpos5%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Eb6048472%2D1336%2D4fed%2Da601%2Da2fd975ce156}{5\textdegree{} run.}
+
+    \vspace{0.25em}\noindent Video recordings of the PID runs are available via the following links:
+    \begin{itemize}
+        \item \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{\color{blue}\underline{PID 0\textdegree{} run}}
+        \item \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_neg5.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=log0nht8&dl=0}{\color{blue}\underline{PID -5\textdegree{} run}}
+        \item \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{\color{blue}\underline{PID 5\textdegree{} run}}
+    \end{itemize}
 
 \section{Evaluation}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/LiftMPC.png}
+        \caption{MPC at $\SI{-5}{\degree}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/LiftPID-5.png}
+        \caption{PID at $\SI{-5}{\degree}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/LiftPID5.png}
+        \caption{PID at $\SI{5}{\degree}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/LiftPID0.png}
+        \caption{PID at $\SI{0}{\degree}$}
+    \end{subfigure}
+    \caption{Measured lift vs target for each model}
+    \label{fig:measurement_lift}
+\end{figure}
+
+Pictured in Figure~\ref{fig:measurement_lift} are the resulting measurements for lift across each of the runs. While the MPC performs notably better than PID -- quickly converging close to the target lift -- performance lacks behind the DRL implementation. Figure~\ref{fig:measurement_lift-DRL} shows results for both TD3 and SAC implementations~\cite{5}, where measured lift appears near constant around the target. Noticeable dips in output are observable at timesteps 0 and 300, however this is a result of the measurement being performed across two training episodes, with random actuation of the motors at the beginning of each.
+\\
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{./img/LiftDRL}
+    \end{center}
+    \caption{DRL lift response for 0.7N target~\cite{5}}\label{fig:measurement_lift-DRL}
+\end{figure}
+\\
+
+Figure~\ref{fig:measurement_actuator-PID0} provides a plot for the actuator position over time during a PID run, with Figure~\ref{fig:measurement_actuator-PID0b} showing the final position of the wing. As evident by the graph, the controller in this run quickly moves to a position position of $1.0$ normalised at the beginning, maintaining this pose for the remaining duration. 
+
+\begin{figure}[h]
+    \begin{subfigure}[b]{0.53\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/ActuatorPID0.png}
+        \caption{Actuator position}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/wing_PID0.png}
+        \caption{Final wing pose}\label{fig:measurement_actuator-PID0b}
+    \end{subfigure}
+    \caption{Actuator position and final pose for wing running PID at $\SI{0}{\degree}$}
+    \label{fig:measurement_actuator-PID0}
+\end{figure}\vspace{1em}
+
+This contrasts with the resulting actuations of the DRL controllers, resulting in more motion to maintain stability of the lift at target. Final positions of the wing from the paper are shown in Figure~\ref{fig:wing_DRL}, where its clear the position deviates from what was observed with the PID implementation.
+
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{./img/wing_DRL.png}
+    \end{center}
+    \caption{}\label{fig:wing_DRL}
+\end{figure}
+
+
 \section{Discussion}
 \section{Conclusion}
