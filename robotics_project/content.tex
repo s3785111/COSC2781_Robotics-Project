@@ -189,7 +189,7 @@
     \setlength{\intextsep}{0pt}
     \begin{wrapfigure}{r}{\textwidth/2}
         \includegraphics[width=\textwidth/2]{./img/Fig2_wind_tunnel_design.jpg}
-        \caption{\label{fig:figure 2} Closed Return Wind Tunnel \cite{10}}
+        \caption{\label{fig:figure 2} Closed Return Wind Tunnel \cite{11}}
     \end{wrapfigure}
     \paragraph{Wind tunnel}
     The Kestrel will be mounted in the blue wind tunnel at the RMIT
@@ -313,7 +313,7 @@
         \item \href{https://www.dropbox.com/scl/fo/qydc6hqrx3budknwzgmi1/ADdN0YC3AZ4ctg0SImbJqqI/Videos?preview=final_PID_0.mp4&rlkey=jcnhrcvje207wu5aaq48laen6&subfolder_nav_tracking=1&st=k76cp6vc&dl=0}{\color{blue}\underline{PID 5\textdegree{} run}}
     \end{itemize}
 
-\section{Evaluation}
+\section{Evaluation and Discussion}
 
 \begin{figure}[h]
     \centering
@@ -378,5 +378,18 @@ This contrasts with the resulting actuations of the DRL controllers, resulting i
 \end{figure}
 
 
-\section{Discussion}
 \section{Conclusion}
+For our research we set out to assess the viability of classical control methods in the field of controlling a bio-inspired kestrel wing robot, and how these methods compare to previous research done on the use of Deep-Reinforcement learning control methods.
+\\
+For our research we implemented two control methods firstly the PID controller which required tuning, so we also implemented a regressional tuner for this and we also implemented an MPC controller, both controllers had their benefits and drawbacks, but we also discovered that after a brief homing period that each of the classical methods were able to stabilize the wing in a controlled wind environment.
+\\
+Unfortunately, several limitations of our study make direct comparisons not ideal:
+-	The wing had changed since the original DRL training, two feathers had fallen off.
+-	Some maintenance issues with the half-wing were impacting performance, the wing-span servo was not as responsive as the DRL training.
+-	To avoid too much strain on the wing, we opted to train and test at a lower lift of 0.42 N, compared to 0.7 N as outlined in the DRL paper.
+\\
+Ideally, to account for these differences we would have retrained the DRL model with the wing in its current state. A lack of time and issues connecting to the GPU server setup to run the DRL training script meant we were unable to do this, though it is an avenue for potential future work. 
+\\
+Future research could be conducted in this area, such as continuing the research into the 2nd and 3rd phases of Stiemer's original research \cite{5}, it would be especially interesting to see how the controllers we implemented react to the 3rd phase's manoeuvres, or how they react to a turbulence grid. It would also be interesting to see our controllers tested on a full-scale version of the bio-inspired wing and how it flies in the real world.
+\\
+All this future work can be built upon the successful aims of our project which were to create two methods of classical control for a novel platform, the Kestrel half-wing. We have shown that it is possible to implement classical control in the Kestrel and compared the two with DRL despite limitations.
